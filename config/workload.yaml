@@ -1,0 +1,32 @@
+# https://docs.vmware.com/en/VMware-Tanzu-Application-Platform/1.6/tap/scc-workload-reference.html
+# https://cartographer.sh/docs/v0.7.0/reference/workload/
+apiVersion: carto.run/v1alpha1
+kind: Workload
+metadata:
+  name: fullstack
+  labels:
+    app.kubernetes.io/part-of: fullstack
+    apps.tanzu.vmware.com/workload-type: web
+spec:
+  # https://paketo.io/docs/howto/java/#enable-maven-or-gradle-to-build-javascript-assets-with-nodeyarn
+  build:
+    env:
+      - name: BP_JVM_VERSION
+        value: "17"
+      - name: BP_JAVA_INSTALL_NODE # this is needed in order to have a companion buildpack
+        value: "true"
+      - name: BP_NODE_PROJECT_PATH # this is needed in order to "detect" npm or yarn
+        value: "frontend"
+      - name: BP_GRADLE_BUILT_ARTIFACT # this overrides the default location
+        value: "backend/build/libs/*.jar"
+  params:
+    - name: annotations
+      value:
+        autoscaling.knative.dev/min-scale: "1" # For rolling deployment
+  source:
+    git:
+      url: https://github.com/th3n3rd/tap-recipes-live-demo-fullstack-one-workoad.git
+      ref:
+        branch: main
+  env: []
+  serviceClaims: []
