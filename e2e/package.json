@@ -1,0 +1,16 @@
+{
+  "name": "e2e",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "vitest run src"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "expect-puppeteer": "^9.0.0",
+    "puppeteer": "21.1.1",
+    "vitest": "^0.34.5"
+  }
+}
